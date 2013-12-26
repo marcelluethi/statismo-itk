@@ -3,8 +3,6 @@ PROJECT(ssm_itk)
 SET(CMAKE_VERBOSE_MAKEFILE ON)
 
 
-FIND_PACKAGE(ITK 4.1 REQUIRED)
-include (${ITK_USE_FILE})
 
 IF(WIN32)
 # Fix for VS2012 that has _VARIADIC_MAX set to 5. For some of the examples, this does not seem to be sufficient. 
@@ -13,17 +11,16 @@ add_definitions( -D_VARIADIC_MAX=9 )
 ENDIF()
 
 
-    
-SET (ITK_STATISTICAL_MODEL_INCLUDE_DIR ${STATISMO_ROOT_DIR}/ITKstatismo)
+   
 
 FILE(GLOB INCLUDE_FILES *.h)
 FILE(GLOB SOURCE_FILES  *.txx )
 
-include_directories(${STATISMO_ROOT_DIR} ${STATISMO_ROOT_DIR}/statismo_ITK  ${STATISMO_ROOT_DIR}/3rdParty  ${STATISMO_INCLUDE_DIR}  
-					${ITK_INCLUDE_DIRS}  ${STATISMO_ROOT_DIR}/Representers/ITK
-					${HDF5_INCLUDE_DIR} ${HDF5_INCLUDE_DIR_CPP}	
+include_directories(${STATISMO_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/statismo_ITK ${CMAKE_SOURCE_DIR}/Representers   
+					${HDF5_INCLUDE_DIR} ${HDF5_INCLUDE_DIR_CPP}  ${CMAKE_SOURCE_DIR}
 					)
-link_directories( ${HDF5_LIBRARY_DIR} ${ITK_LIBRARY_DIRS} ${STATISMO_LIBRARY_DIR} )
+
+link_directories( ${ITK_LIBRARY_DIRS} ${STATISMO_LIBRARY_DIR} )
 
 add_executable (itkBuildDeformationModel buildDeformationModel.cpp 
 	${SOURCE_FILES}
@@ -37,7 +34,7 @@ add_executable (itkDeformationModelFitting deformationModelFitting.cpp
 	${INCLUDE_FILES}
 ) 
 ADD_DEPENDENCIES(itkDeformationModelFitting HDF5)
-target_link_libraries (itkDeformationModelFitting   ${ITK_LIBRARIES})
+target_link_libraries (itkDeformationModelFitting   ${ITK_LIBRARIES} )
 
 add_executable (itkBuildShapeModel buildShapeModel.cpp 
 	${SOURCE_FILES}

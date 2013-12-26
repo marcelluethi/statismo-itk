@@ -40,7 +40,7 @@
 
 #include "statismo/Representer.h"
 #include "itkImage.h"
-#include "statismo_ITK/statismoITKConfig.h"
+#include "statismoITKConfig.h"
 #include "statismo/CommonTypes.h"
 #include "itkObject.h"
 #include <H5Cpp.h>
