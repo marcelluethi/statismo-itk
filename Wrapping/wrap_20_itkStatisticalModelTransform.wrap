@@ -1,0 +1,21 @@
+itk_wrap_include("itkMesh.h")
+itk_wrap_include("itkImage.h")
+itk_wrap_include("itkStandardMeshRepresenter.h")
+itk_wrap_include("itkStandardImageRepresenterTraits.h")
+
+
+itk_wrap_class("itk::StatisticalModelTransformBase" POINTER_WITH_SUPERCLASS)
+	itk_wrap_template("VIF22" "itk::Image<itk::Vector<float, 2u>, 2u > , double, 2")
+	itk_wrap_template("VIF33" "itk::Image<itk::Vector<float, 3u>, 3u > , double, 3")
+	itk_wrap_template("MRF3" "itk::Mesh<float, 3u>, double, 3")	
+itk_end_wrap_class()
+
+
+itk_wrap_class("itk::StatisticalDeformationModelTransform" POINTER)
+	itk_wrap_template("VIF22" "itk::Image<itk::Vector<float, 2u>, 2u >, double, 2")
+	itk_wrap_template("VIF33" "itk::Image<itk::Vector<float, 3u>, 3u >, double, 3")
+itk_end_wrap_class()
+
+itk_wrap_class("itk::StatisticalShapeModelTransform" POINTER)
+	itk_wrap_template("MF3" "itk::Mesh<float, 3u>, double, 3")	
+itk_end_wrap_class()

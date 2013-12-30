@@ -1,0 +1,7 @@
+#itk_wrap_include("itkMesh.h")
+#
+#itk_wrap_class("itk::ConditionalModelBuilder" POINTER)
+#	itk_wrap_template("VIRF22" "itk::Image<itk::Vector<float, 2>, 2 >")
+#	itk_wrap_template("VIRF33" "itk::Image<itk::Vector<float, 3>, 3 >")
+#	itk_wrap_template("MRF3" "itk::Mesh<float, 3>")	
+#itk_end_wrap_class()
