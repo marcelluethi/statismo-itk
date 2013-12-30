@@ -127,7 +127,7 @@ public:
 
 	void Load(RepresenterType* representer, const char* filename) {
 		try {
-			SetstatismoImplObj(ImplType::Load(representer, filename));
+		  SetstatismoImplObj(ImplType::Load(representer, std::string(filename)));
 		}
 		catch (statismo::StatisticalModelException& s) {
 			itkExceptionMacro(<< s.what());
@@ -137,7 +137,7 @@ public:
 
 	void Load(RepresenterType* representer, const H5::Group& modelRoot) {
 		try {
-		  SetstatismoImplObj(ImplType::Load(modelRoot));
+		  SetstatismoImplObj(ImplType::Load(representer, modelRoot));
 		}
 		catch (statismo::StatisticalModelException& s) {
 			itkExceptionMacro(<< s.what());
@@ -200,9 +200,6 @@ public:
 		return toVnlVector(callstatismoImpl(std::tr1::bind(&ImplType::ComputeCoefficientsForSample, this->m_impl, ds)));
 	}
 
-	VectorType ComputeCoefficientsForDataSample(const DataItemType* sample) const {
-		return toVnlVector(callstatismoImpl(std::tr1::bind(&ImplType::ComputeCoefficientsForDataSample, this->m_impl, sample)));
-	}
 	
 	double ComputeLogProbabilityOfDataset(DatasetConstPointerType ds) const {
 		return callstatismoImpl(std::tr1::bind(&ImplType::ComputeLogProbabilityOfDataset, this->m_impl, ds));

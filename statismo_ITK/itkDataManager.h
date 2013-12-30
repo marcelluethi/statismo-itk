@@ -114,9 +114,9 @@ public:
 		callstatismoImpl(std::tr1::bind(&ImplType::AddDataset, this->m_impl, ds, filename));
 	}
 
-	void Load(const char* filename) {
+	void Load(statismo::Representer<T>* representer, const char* filename) {
 		try {
-				SetstatismoImplObj(ImplType::Load(filename));
+		  SetstatismoImplObj(ImplType::Load(representer, filename));
 			}
 		catch (statismo::StatisticalModelException& s) {
 			itkExceptionMacro(<< s.what());
