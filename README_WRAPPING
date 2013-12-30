@@ -1,0 +1,4 @@
+The wrappers are built using ITK's Wrapping mechanism (WrapITK).
+In order for the build to work, one needs to build against a build (and not installed version) of ITK.
+Furthermore, one needs to manually link the Typedef directory from the ITK build into the own build tree. 
+The build sometimes stops with an error. Calling make again will make it proceed.  
