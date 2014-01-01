@@ -2,10 +2,6 @@ itk_wrap_include("itkMesh.h")
 itk_wrap_include("statismo/Representer.h")
 
 
-itk_wrap_class("itk::Mesh" POINTER_WITH_SUPERCLASS)
-	itk_wrap_template("F3" "float, 3u")
-itk_end_wrap_class()
-
 itk_wrap_named_class("statismo::Representer" "Representer")
 	itk_wrap_template("MF3" "itk::Mesh<float, 3u>")
 itk_end_wrap_class()
