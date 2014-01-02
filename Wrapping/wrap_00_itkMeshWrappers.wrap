@@ -1,4 +1,6 @@
 itk_wrap_include("itkMesh.h")
+itk_wrap_include("itkMeshFileReader.h")
+itk_wrap_include("itkMeshFileWriter.h")
 
 itk_wrap_class("itk::Mesh" POINTER_WITH_SUPERCLASS)
 	itk_wrap_template("F3" "float, 3u")
