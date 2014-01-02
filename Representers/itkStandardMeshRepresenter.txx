@@ -163,7 +163,7 @@ StandardMeshRepresenter<TPixel, MeshDimension>::Load(const H5::Group& fg) {
 
 template <class TPixel, unsigned MeshDimension>
 void
-StandardMeshRepresenter<TPixel, MeshDimension>::SetReference(DatasetPointerType reference) {
+StandardMeshRepresenter<TPixel, MeshDimension>::SetReference(DatasetType* reference) {
 	m_reference = reference;
 
 	// We create a list of poitns for the domain.

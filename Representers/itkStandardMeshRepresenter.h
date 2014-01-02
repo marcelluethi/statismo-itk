@@ -136,7 +136,7 @@ public:
 	const DomainType& GetDomain() const { return m_domain; }
 
 	/** Set the reference that is used to build the model */
-	void SetReference(DatasetPointerType ds);
+	void SetReference(DatasetType* ds);
 
 	statismo::VectorType PointToVector(const PointType& pt) const;
 
