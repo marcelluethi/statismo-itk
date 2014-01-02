@@ -7,7 +7,7 @@
 # All rights reserved.
 #
 #
-# This example shows how samples can be drawn from a model, using the Python interface of statismo-itk.
+# This example shows how samples can be drawn from a shape model, using the Python interface of statismo-itk.
 #
 import sys
 import statismo_ITKPython as sitk
@@ -34,7 +34,7 @@ def main(modelname, resdir):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print "usage: %s model resdir" 
+        print "usage: %s model resultdir" 
         sys.exit(-1)
 
     main(*sys.argv[1:])
