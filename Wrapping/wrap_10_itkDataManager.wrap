@@ -4,6 +4,15 @@ itk_wrap_include("itkStandardMeshRepresenter.h")
 itk_wrap_include("itkStandardImageRepresenterTraits.h")
 
 
+itk_wrap_include("itkVectorContainer.h")
+
+itk_wrap_class("itk::VectorContainer" POINTER)
+	itk_wrap_template("VIF22" "unsigned int, itk::SmartPointer<itk::DataItem< itk::Image<itk::Vector<float, 2u>, 2u > > >")
+	itk_wrap_template("VIF33" "unsigned int, itk::SmartPointer<itk::DataItem< itk::Image<itk::Vector<float, 3u>, 3u > > >")
+	itk_wrap_template("MF3" "unsigned int, itk::SmartPointer<itk::DataItem< itk::Mesh<float, 3u> > >")
+itk_end_wrap_class()
+
+
 itk_wrap_class("itk::DataManager" POINTER)
 	itk_wrap_template("VIF22" "itk::Image<itk::Vector<float, 2u>, 2u >")
 	itk_wrap_template("VIF33" "itk::Image<itk::Vector<float, 3u>, 3u >")

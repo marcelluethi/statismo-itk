@@ -43,8 +43,11 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkDataItem.h"
+#include "itkVectorContainer.h"
 #include "statismoITKConfig.h"
 #include "statismo/DataManager.h"
+#include <list>
 
 namespace itk
 {
@@ -69,8 +72,8 @@ public:
 
 
 	typedef statismo::DataManager<T> ImplType;
-	typedef typename statismo::DataManager<T>::DataItemType     DataItemType;
-	typedef typename statismo::DataManager<T>::DataItemListType DataItemListType;
+	typedef DataItem<T>     DataItemType;
+	typedef itk::VectorContainer<unsigned, typename DataItemType::Pointer > DataItemContainerType;
 	typedef statismo::Representer<T> RepresenterType;
 
 	template <class F>
@@ -127,8 +130,21 @@ public:
 		callstatismoImpl(std::tr1::bind(&ImplType::Save, this->m_impl, filename));
 	}
 
-	typename statismo::DataManager<T>::DataItemListType GetData() const {
-		return callstatismoImpl(std::tr1::bind(&ImplType::GetData, this->m_impl));
+	typename DataItemContainerType::Pointer GetData() const {
+		// copy the statismo data item types to itk dataItem
+		typedef typename statismo::DataManager<T>::DataItemListType StatismoDataItemListType;
+		StatismoDataItemListType dataItemsStatismo = callstatismoImpl(std::tr1::bind(&ImplType::GetData, this->m_impl));
+
+		unsigned idx = 0;
+		typename DataItemContainerType::Pointer dataItemsITK = DataItemContainerType::New();
+		for (typename StatismoDataItemListType::iterator it = dataItemsStatismo.begin(); it != dataItemsStatismo.end(); it++) {
+			typename DataItemType::Pointer di = DataItemType::New();
+			di->SetFromStatismoDataItem(*it);
+			dataItemsITK->InsertElement(idx, di);
+			idx += 1;
+		}
+
+		return dataItemsITK;
 	}
 
 

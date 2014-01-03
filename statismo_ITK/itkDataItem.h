@@ -36,52 +36,45 @@
  */
 
 
-#ifndef ITKMODELBUILDER_H_
-#define ITKMODELBUILDER_H_
+#ifndef ITK_DATAITEM_H_
+#define ITK_DATAITEM_H_
+
+#include <boost/tr1/functional.hpp>
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-
 #include "statismoITKConfig.h"
-#include "itkDataManager.h"
-#include "itkStatisticalModel.h"
-#include "statismo/PCAModelBuilder.h"
+#include "statismo/DataItem.h"
 
 namespace itk
 {
 
+
 /**
- * \brief ITK Wrapper for the statismo::PCAModelBuilder class.
- * \see statismo::PCAModelBuilder for detailed documentation.
+ * \brief ITK Wrapper for the statismo::DataItem class.
+ * \see statismo::DataItem for detailed documentation.
  */
 template <class T>
-class PCAModelBuilder : public Object {
+class DataItem : public Object {
 public:
 
-	typedef PCAModelBuilder            Self;
+
+	typedef DataItem            Self;
 	typedef Object	Superclass;
 	typedef SmartPointer<Self>                Pointer;
 	typedef SmartPointer<const Self>          ConstPointer;
 
 	itkNewMacro( Self );
-	itkTypeMacro( PCAModelBuilder, Object );
+	itkTypeMacro( DataItem, Object );
 
 
-	typedef statismo::PCAModelBuilder<T> ImplType;
-	typedef DataManager<T> DataManagerType;
-	typedef typename DataManagerType::DataItemContainerType DataItemContainerType;
-
-	PCAModelBuilder() : m_impl(ImplType::Create()){}
-
-	virtual ~PCAModelBuilder() {
-		if (m_impl) {
-			delete m_impl;
-			m_impl = 0;
-		}
-	}
+	typedef statismo::DataItem<T> ImplType;
 
 	template <class F>
 	typename std::tr1::result_of<F()>::type callstatismoImpl(F f) const {
+		if (m_impl == 0) {
+			itkExceptionMacro(<< "Model not properly initialized. Maybe you forgot to call SetRepresenter");
+		}
 		try {
 			  return f();
 		}
@@ -91,29 +84,28 @@ public:
 	}
 
 
+	DataItem() : m_impl(0){}
 
-	typename StatisticalModel<T>::Pointer BuildNewModel(const DataItemContainerType* dataItems, float noiseVariance, bool computeScores = true) {
+	ImplType* GetStatismoDataItem() const { return m_impl; }
 
-
-		// copy the itk data item types to standard data item
-		typedef typename statismo::DataManager<T>::DataItemListType StatismoDataItemListType;
-
-		StatismoDataItemListType dataItemsStatismo;
-		for (unsigned i = 0; i < dataItems->Size(); i++) {
-			dataItemsStatismo.push_back(dataItems->GetElement(i)->GetStatismoDataItem());
-		}
-
-
-		statismo::StatisticalModel<T>* model_statismo = callstatismoImpl(std::tr1::bind(&ImplType::BuildNewModel, this->m_impl, dataItemsStatismo, noiseVariance, computeScores));
-		typename StatisticalModel<T>::Pointer model_itk = StatisticalModel<T>::New();
-		model_itk->SetstatismoImplObj(model_statismo);
-		return model_itk;
+	void SetFromStatismoDataItem(const statismo::DataItem<T>* di) {
+		m_impl = ImplType::Create(di->GetRepresenter(), di->GetPreprocessor(), di->GetDatasetURI(), di->GetSampleVector());
 	}
 
 
+	virtual ~DataItem() {
+		if (m_impl) {
+			delete m_impl;
+			m_impl = 0;
+		}
+	}
+
+
+
+
 private:
-	PCAModelBuilder(const PCAModelBuilder& orig);
-	PCAModelBuilder& operator=(const PCAModelBuilder& rhs);
+	DataItem(const DataItem& orig);
+	DataItem& operator=(const DataItem& rhs);
 
 	ImplType* m_impl;
 };
@@ -121,4 +113,4 @@ private:
 
 }
 
-#endif /* ITKMODELBUILDER_H_ */
+#endif /* ITK_DATAMANAGER_H_ */
